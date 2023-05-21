@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/lax.js"></script>
+  </head>
+  <style>
+    html {
+      overflow-x: hidden;
+    }
+  </style>
+  <body>
+    <div class="header">HEADER</div>
+    <div class="playground">
+      <div class="animate-wrapper">
+        <div class="container">
+          <div class="lists">
+            <div class="list-item"></div>
+            <div class="list-item"></div>
+            <div class="list-item"></div>
+            <div class="list-item"></div>
+            <div class="list-item"></div>
+            <div class="list-item"></div>
+            <div class="list-item"></div>
+            <div class="list-item"></div>
+            <div class="list-item"></div>
+            <div class="list-item"></div>
+            <div class="list-item"></div>
+            <div class="list-item"></div>
+            <div class="list-item"></div>
+            <div class="list-item"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">FOOTER</div>
+    <script>
+      const playground = document.querySelector(".playground");
+      const items = document.querySelectorAll(".list-item");
+      const lists = document.querySelector(".lists");
+
+      function getScroll(playground) {
+        const rect = playground.getBoundingClientRect();
+        const scrollStart = rect.top + window.scrollY;
+        const scrollEnd = rect.bottom + window.scrollY - window.innerHeight;
+        return {
+          scrollStart,
+          scrollEnd,
+        };
+      }
+
+      const { scrollStart, scrollEnd } = getScroll(playground);
+      const listsRect = lists.getBoundingClientRect();
+
+      window.onload = function () {
+        lax.init();
+
+        lax.addDriver("scrollY", function () {
+          return window.scrollY;
+        });
+
+        // Add animation bindings to elements
+        lax.addElements(".list-item", {
+          scrollY: {
+            opacity: [
+              [
+                "scrollStart + (index % 7 < 3 ? index % 7 : (6 - index % 7)) * 200",
+                scrollEnd,
+              ],
+              [0, 1],
+            ],
+            scale: [
+              [
+                "scrollStart + (index % 7 < 3 ? index % 7 : (6 - index % 7)) * 200",
+                scrollEnd,
+              ],
+              [0.5, 1],
+            ],
+            translateX: [
+              [
+                "scrollStart + (index % 7 < 3 ? index % 7 : (6 - index % 7)) * 200",
+                scrollEnd,
+              ],
+              [`(3 - index % 7) * 130 - 40  `, 0],
+            ],
+            translateY: [
+              [
+                "scrollStart + (index % 7 < 3 ? index % 7 : (6 - index % 7)) * 200",
+                scrollEnd,
+              ],
+              [`index - 7 < 0 ? 90 : -90 `, 0],
+            ],
+          },
+        });
+      };
+    </script>
+  </body>
+</html>
