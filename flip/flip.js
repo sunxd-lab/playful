@@ -77,7 +77,6 @@ const Flip = (function () {
       }).filter((g) => !g.iteratorResult.done);
 
       while (gs.length > 0) {
-        document.body.clientWidth;
         gs = gs.map((g) => {
           g.iteratorResult = g.generator.next();
           return g
