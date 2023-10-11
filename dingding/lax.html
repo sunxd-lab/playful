@@ -54,7 +54,6 @@
       }
 
       const { scrollStart, scrollEnd } = getScroll(playground);
-      const listsRect = lists.getBoundingClientRect();
 
       window.onload = function () {
         lax.init();
@@ -62,36 +61,26 @@
         lax.addDriver("scrollY", function () {
           return window.scrollY;
         });
+        const laxScrollStart =
+          "scrollStart + (index % 7 < 3 ? index % 7 : (6 - index % 7)) * 200";
 
-        // Add animation bindings to elements
+        // grid 100px gap 30px
         lax.addElements(".list-item", {
           scrollY: {
             opacity: [
-              [
-                "scrollStart + (index % 7 < 3 ? index % 7 : (6 - index % 7)) * 200",
-                scrollEnd,
-              ],
+              [laxScrollStart, scrollEnd],
               [0, 1],
             ],
             scale: [
-              [
-                "scrollStart + (index % 7 < 3 ? index % 7 : (6 - index % 7)) * 200",
-                scrollEnd,
-              ],
+              [laxScrollStart, scrollEnd],
               [0.5, 1],
             ],
             translateX: [
-              [
-                "scrollStart + (index % 7 < 3 ? index % 7 : (6 - index % 7)) * 200",
-                scrollEnd,
-              ],
+              [laxScrollStart, scrollEnd],
               [`(3 - index % 7) * 130 - 40  `, 0],
             ],
             translateY: [
-              [
-                "scrollStart + (index % 7 < 3 ? index % 7 : (6 - index % 7)) * 200",
-                scrollEnd,
-              ],
+              [laxScrollStart, scrollEnd],
               [`index - 7 < 0 ? 90 : -90 `, 0],
             ],
           },

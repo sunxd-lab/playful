@@ -15,10 +15,15 @@ function createAnimation(scrollStart, scrollEnd, valueStart, valueEnd) {
   }
 }
 
-/*{
+/*
+key: dom
+value: {
   opacity: function (scroll) {
     return '属性值'
-  }
+  },
+  transform: function (scroll) {
+    return '属性值'
+  },
 } */
 
 const animationMap = new Map()
@@ -26,6 +31,7 @@ const animationMap = new Map()
 function getDomAnimation(scrollStart, scrollEnd, dom, wrapper) {
   const opacityAnimation = createAnimation(scrollStart, scrollEnd, 0, 1)
   const opacity = function (scroll) {
+    console.log(opacityAnimation(scroll))
     return opacityAnimation(scroll)
   }
 
@@ -70,7 +76,6 @@ updateMap()
 
 function updateStyles() {
   const scroll = window.scrollY
-  console.log(animationMap)
   for (let [dom, value] of animationMap) {
     for (const cssProp in value) {
       dom.style[cssProp] = value[cssProp](scroll)
