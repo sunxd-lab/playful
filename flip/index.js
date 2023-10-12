@@ -1,6 +1,9 @@
 const container = document.getElementById('container');
 let sourceNode;
 let f;
+let isMoving = false;
+const scrollGap = 10
+
 container.ondragstart = (e) => {
   setTimeout(() => {
     e.target.classList.add('moving');
@@ -32,8 +35,26 @@ container.ondragenter = (e) => {
 
 container.ondragover = (e) => {
   e.preventDefault();
+  // console.log('e: ', container.clientHeight, container.scrollHeight)
+  // console.log('move: ', e.clientY)
+  const { clientY } = e
+  const { clientHeight, scrollHeight, scrollTop } = container
+  if (scrollHeight <= clientHeight) return
+  if (scrollTop + clientHeight === scrollHeight) {
+    // console.log('到底了')
+    return
+  }
+  if (clientHeight - clientY < 80) {
+    // console.log('到下边界了')
+    container.scrollTop += scrollGap
+  }
+  if (clientY < 80 && scrollTop !== 0) {
+    // console.log('向上')
+    container.scrollTop -= scrollGap
+  }
 }
 
 container.ondragend = (e) => {
   e.target.classList.remove('moving');
 }
+
