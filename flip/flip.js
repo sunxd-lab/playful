@@ -31,8 +31,10 @@ const Flip = (function () {
     }
 
     *play() {
+      // if (this.dom.classList.contains('touching')) {
+      //   return
+      // }
       if (!this.isPlaying) {
-        this.dom.style.transition = 'none';
         const lastPosition = this.getDomPosition();
         const dis = {
           x: lastPosition.x - this.firstPosition.x,
@@ -41,15 +43,20 @@ const Flip = (function () {
         if (!dis.x && !dis.y) {
           return
         }
+        this.dom.style.transition = 'none';
         this.dom.style.transform = `translate(${-dis.x}px, ${-dis.y}px)`
         yield 'moveToFirst';
         this.isPlaying = true;
       }
 
-      this.dom.style.transition = this.transition;
-      this.dom.style.transform = 'none';
-      this.dom.removeEventListener('transitionend', this.transitionEndHandler);
-      this.dom.addEventListener('transitionend', this.transitionEndHandler);
+      const isMoving = this.dom.classList.contains('moving');
+
+      setTimeout(() => {
+        this.dom.style.transition = isMoving ? 'none' : this.transition;
+        this.dom.style.transform = `none`;
+        this.dom.removeEventListener('transitionend', this.transitionEndHandler);
+        this.dom.addEventListener('transitionend', this.transitionEndHandler);
+      }, 0)
     }
   }
 
@@ -74,7 +81,10 @@ const Flip = (function () {
           generator,
           iteratorResult: generator.next()
         }
-      }).filter((g) => !g.iteratorResult.done);
+      }).filter((g) => {
+        return !g.iteratorResult.done
+      });
+
 
       while (gs.length > 0) {
         gs = gs.map((g) => {
