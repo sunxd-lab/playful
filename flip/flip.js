@@ -31,9 +31,9 @@ const Flip = (function () {
     }
 
     *play() {
-      // if (this.dom.classList.contains('touching')) {
-      //   return
-      // }
+      if (this.dom.classList.contains('touching')) {
+        return
+      }
       if (!this.isPlaying) {
         const lastPosition = this.getDomPosition();
         const dis = {
@@ -49,10 +49,9 @@ const Flip = (function () {
         this.isPlaying = true;
       }
 
-      const isMoving = this.dom.classList.contains('moving');
 
       setTimeout(() => {
-        this.dom.style.transition = isMoving ? 'none' : this.transition;
+        this.dom.style.transition = this.transition;
         this.dom.style.transform = `none`;
         this.dom.removeEventListener('transitionend', this.transitionEndHandler);
         this.dom.addEventListener('transitionend', this.transitionEndHandler);

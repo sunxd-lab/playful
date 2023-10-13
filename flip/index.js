@@ -96,7 +96,7 @@ container.ontouchmove = (e) => {
   children.forEach((item, index) => {
     if (item !== sourceNode) {
       const crossRect = item.getBoundingClientRect()
-      if (touch.clientX - crossRect.x > 0 && touch.clientX - crossRect.x < 80 && touch.clientY - crossRect.y > 0 && touch.clientY - crossRect.y < 80) {
+      if (touch.clientX >= crossRect.left && touch.clientX <= crossRect.right && touch.clientY >= crossRect.top && touch.clientY <= crossRect.bottom) {
         const sourceIndex = children.indexOf(sourceNode);
         const targetIndex = index;
         const sourceRow = Math.floor(sourceIndex / 3)
@@ -104,10 +104,10 @@ container.ontouchmove = (e) => {
         const sourceColumn = sourceIndex % 3
         const targetColumn = targetIndex % 3
         if (sourceIndex < targetIndex) {
-          console.log('向后')
+          // console.log('向后')
           container.insertBefore(sourceNode, item.nextElementSibling);
         } else {
-          console.log('向前')
+          // console.log('向前')
           container.insertBefore(sourceNode, item);
         }
         sourceNode.style.transform = 'none';
